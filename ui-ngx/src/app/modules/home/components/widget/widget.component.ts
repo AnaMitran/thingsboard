@@ -14,6 +14,8 @@
 /// limitations under the License.
 ///
 
+import {saveAs} from "file-saver";
+
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -1545,6 +1547,34 @@ export class WidgetComponent extends PageComponent implements OnInit, AfterViewI
       }
     }
     return sizeChanged;
+  }
+
+  ibidemFunction2() {
+    // console.log(this.legendData)
+    // console.log(this.widgetContext.data[0].data)
+    // console.log(this.widgetContext.data[0].data[0][1])
+    // console.log(this.widgetContext.data[0].data[1][1])
+    //`${this.widgetContext.data[0].data}`
+
+    // var s = new Date(this.widgetContext.data[0].data[0][1]).toLocaleTimeString("en-US")
+    // console.log(s)
+
+    var values = "Timestamp\t\tNo. Usages\n"
+    for ( var i = 0;  i< this.widgetContext.data[0].data.length; i++) {
+      var date = new Date(this.widgetContext.data[0].data[i][0]).toLocaleTimeString("en-RO")
+      values += date;
+      values += '\t\t\t';
+      values += this.widgetContext.data[0].data[i][1];
+      values += '\n';
+    }
+
+    const data: Blob = new Blob([values], {type: "text/csv;charset=utf-8"});
+    saveAs(data, "export.csv");
+  }
+
+  downloadCsvData() {
+    const csv = `${this.widgetContext.data[0].data}`;
+
   }
 
 }
